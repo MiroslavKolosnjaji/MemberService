@@ -2,7 +2,6 @@ package com.example.memberservice.web.handler;
 
 import com.example.memberservice.dto.MemberDTO;
 import com.example.memberservice.model.Member;
-import com.example.memberservice.repository.MemberRepository;
 import com.example.memberservice.service.MemberService;
 import com.example.memberservice.web.router.MemberRouterConfig;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +24,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class MemberHandler {
 
+    public static final String MEMBER_ID = "memberId";
     private final MemberService memberService;
     private final Validator validator;
 
@@ -39,12 +39,6 @@ public class MemberHandler {
                                 .build());
     }
 
-    public Mono<ServerResponse> getMember(ServerRequest serverRequest) {
-        return ServerResponse.ok()
-                .body(memberService.findById(Long.valueOf(serverRequest.pathVariable("member_id")))
-                        .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND))), Member.class);
-    }
-
     public Mono<ServerResponse> updateMember(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(MemberDTO.class)
                 .doOnNext(this::validate)
@@ -53,8 +47,26 @@ public class MemberHandler {
                 .flatMap(memberDTO -> ServerResponse.noContent().build());
     }
 
+    public Mono<ServerResponse> patchMember(ServerRequest serverRequest) {
+        return serverRequest.bodyToMono(MemberDTO.class)
+                .flatMap(memberService::patch)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                .flatMap(memberDTO -> ServerResponse.noContent().build());
+    }
+
+
+    public Mono<ServerResponse> getMemberById(ServerRequest serverRequest) {
+        return ServerResponse.ok()
+                .body(memberService.findById(Long.valueOf(serverRequest.pathVariable(MEMBER_ID)))
+                        .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND))), Member.class);
+    }
+
+    public Mono<ServerResponse> getAllMembers(ServerRequest serverRequest) {
+        return ServerResponse.ok().body(memberService.findAll(), Member.class);
+    }
+
     public Mono<ServerResponse> deleteMemeber(ServerRequest serverRequest) {
-        return memberService.findById(Long.valueOf(serverRequest.pathVariable("member_id")))
+        return memberService.findById(Long.valueOf(serverRequest.pathVariable(MEMBER_ID)))
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
                 .flatMap(memberDTO -> memberService.deleteById(memberDTO.getId()))
                 .then(ServerResponse.noContent().build());

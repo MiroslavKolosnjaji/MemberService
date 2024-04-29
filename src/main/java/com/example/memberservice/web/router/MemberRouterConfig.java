@@ -16,7 +16,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @RequiredArgsConstructor
 public class MemberRouterConfig {
     public static final String MEMBER_PATH = "/api/member";
-    public static final String MEMBER_PATH_ID = MEMBER_PATH + "/{member_id}";
+    public static final String MEMBER_PATH_ID = MEMBER_PATH + "/{memberId}";
 
     private final MemberHandler memberHandler;
 
@@ -24,8 +24,10 @@ public class MemberRouterConfig {
     public RouterFunction<ServerResponse> memberRoutes() {
         return route()
                 .POST(MEMBER_PATH, memberHandler::createMember)
-                .GET(MEMBER_PATH_ID, memberHandler::getMember)
+                .GET(MEMBER_PATH_ID, memberHandler::getMemberById)
+                .GET(MEMBER_PATH, memberHandler::getAllMembers)
                 .PUT(MEMBER_PATH_ID, memberHandler::updateMember)
+                .PATCH(MEMBER_PATH_ID, memberHandler::patchMember)
                 .DELETE(MEMBER_PATH_ID, memberHandler::deleteMemeber)
                 .build();
 
