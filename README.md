@@ -13,6 +13,7 @@ between client applications and the server. Built using Java technologies, the s
 - __JUnit5:__ Testing framework for unit and integration testing in Java.
 - __Spring Boot Test:__ Provides testing support for Spring Boot applications.
 - __R2DBC (Reactive Relational Database Connectivity):__ Reactive database driver for relational databases.
+- __H2 Database:__ In-memory relational database for development and testing purposes
 - __JSON:__ Data interchange format for communication between the client and the server.
 
 
