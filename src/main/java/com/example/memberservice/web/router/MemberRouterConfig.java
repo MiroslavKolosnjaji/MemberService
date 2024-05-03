@@ -24,10 +24,10 @@ public class MemberRouterConfig {
     public RouterFunction<ServerResponse> memberRoutes() {
         return route()
                 .POST(MEMBER_PATH, memberHandler::createMember)
-                .GET(MEMBER_PATH_ID, memberHandler::getMemberById)
-                .GET(MEMBER_PATH, memberHandler::getAllMembers)
                 .PUT(MEMBER_PATH_ID, memberHandler::updateMember)
                 .PATCH(MEMBER_PATH_ID, memberHandler::patchMember)
+                .GET(MEMBER_PATH_ID, memberHandler::getMemberById)
+                .GET(MEMBER_PATH, memberHandler::getAllMembers)
                 .DELETE(MEMBER_PATH_ID, memberHandler::deleteMemeber)
                 .build();
 

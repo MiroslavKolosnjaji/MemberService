@@ -29,6 +29,7 @@ class MemberEndPointTest {
 
     @Test
     void testCreateMember() {
+
         webTestClient.post()
                 .uri(MemberRouterConfig.MEMBER_PATH)
                 .body(Mono.just(getTestMember(null)), Member.class)
@@ -40,7 +41,8 @@ class MemberEndPointTest {
 
     @Test
     void testCreateMemberBadRequest() {
-        var memberDTO  = getTestMember(null);
+
+        var memberDTO = getTestMember(null);
         memberDTO.setFirstName("");
         memberDTO.setLastName("");
 
@@ -56,6 +58,7 @@ class MemberEndPointTest {
     @Test
     @Order(3)
     void testUpdateMember() {
+
         var memberDTO = getTestMember(1L);
         memberDTO.setFirstName("JOSHUA");
 
@@ -68,6 +71,7 @@ class MemberEndPointTest {
 
     @Test
     void testUpdateMemberBadRequest() {
+
         var memberDTO = getTestMember(1L);
         memberDTO.setFirstName("");
 
@@ -80,20 +84,21 @@ class MemberEndPointTest {
 
     @Test
     void testUpdateMemberNotFound() {
-        var memberDTO = getTestMember(1L);
-        memberDTO.setFirstName("");
+
+        var member = getTestMember(99L);
 
         webTestClient.put()
-                .uri(MemberRouterConfig.MEMBER_PATH_ID, 99)
-                .body(Mono.just(memberDTO), Member.class)
+                .uri(MemberRouterConfig.MEMBER_PATH_ID, member.getId())
+                .body(Mono.just(member), Member.class)
                 .exchange()
-                .expectStatus().isBadRequest();
+                .expectStatus().isNotFound();
     }
 
     @Test
     @Order(4)
     void testPatchMemberIdFound() {
-       var memberDTO = getTestMember(1L);
+
+        var memberDTO = getTestMember(1L);
 
         webTestClient.put()
                 .uri(MemberRouterConfig.MEMBER_PATH_ID, memberDTO.getId())
@@ -105,9 +110,11 @@ class MemberEndPointTest {
     @Test
     void testPatchMemberIdNotFound() {
 
+        var memberDTO = getTestMember(99L);
+
         webTestClient.put()
-                .uri(MemberRouterConfig.MEMBER_PATH_ID, 99)
-                .body(Mono.just(getTestMember(1L)), Member.class)
+                .uri(MemberRouterConfig.MEMBER_PATH_ID, memberDTO.getId())
+                .body(Mono.just(memberDTO), Member.class)
                 .exchange()
                 .expectStatus().isNotFound();
     }
@@ -122,6 +129,7 @@ class MemberEndPointTest {
                 .expectHeader().valueEquals("Content-Type", "application/json")
                 .expectBody(MemberDTO.class);
     }
+
     @Test
     void testGetMemberByIdNotFound() {
         webTestClient.get()
@@ -153,7 +161,7 @@ class MemberEndPointTest {
 
     @Test
     void testDeleteMemberNotFound() {
-                webTestClient.delete()
+        webTestClient.delete()
                 .uri(MemberRouterConfig.MEMBER_PATH_ID, 99)
                 .exchange()
                 .expectStatus().isNotFound();
