@@ -29,4 +29,16 @@ It is not intended for production use but serves as a learning tool to demonstra
  ### Conclusion:
  The MemberService examplifies modern Java development practices, leveraging reactive programming and clean architecture principles to build efficient and scalable microservices.
  It emphasizes modular design, separation of concerns, and test-driven development to ensure robustness and maintainability.
+
+ # Microservice Projects Overview
+
+Here are some of my microservice projects, all built with a similar structure and focused on different business domains. These projects allow me to practice writing reactive code with **WebFlux**.
+
+[![UserService](https://img.shields.io/badge/UserService-Repo-blue?style=for-the-badge&logo=github)](https://github.com/MiroslavKolosnjaji/UserService)
+[![RoleService](https://img.shields.io/badge/RoleService-Repo-blue?style=for-the-badge&logo=github)](https://github.com/MiroslavKolosnjaji/RoleService)
+[![GymService](https://img.shields.io/badge/GymService-Repo-blue?style=for-the-badge&logo=github)](https://github.com/MiroslavKolosnjaji/GymService)
+[![MembershipService](https://img.shields.io/badge/MembershipService-Repo-blue?style=for-the-badge&logo=github)](https://github.com/MiroslavKolosnjaji/MembershipService)
+[![CityService](https://img.shields.io/badge/CityService-Repo-blue?style=for-the-badge&logo=github)](https://github.com/MiroslavKolosnjaji/CityService)
+
+Feel free to check them out to explore the differences in entities and how each service is implemented.
  
